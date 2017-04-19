@@ -141,11 +141,11 @@ yum install git
 To download IVA, enter the following [Git](https://git-scm.com/) command from the directory where you want to install IVA (e.g., /usr/local/share): 
 
 ```
-git clone https://git.cs.uni-bonn.de/benthin/vulnerability_analysis.git
+git clone https://github.com/fkie-cad/iva.git
 ```
 If you get a 401 error, try:
 ```
-git clone https://username@git.cs.uni-bonn.de/benthin/vulnerability_analysis.git
+git clone https://username@github.com/fkie-cad/iva.git
 ```
 
 ### Requirements
