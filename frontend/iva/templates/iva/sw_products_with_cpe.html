@@ -1,0 +1,56 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% block title %}CPEs{% endblock %}
+{% block js %}
+    {% include "iva/jplist_includes.html" %}
+    <script src="{%  static 'iva/js/cpes.js' %}"></script>
+{% endblock %}
+{% block navigation-bar %}
+    > software with CPE
+{% endblock %}
+{% block content %}
+    <div class="container-title">Software with CPE</div>
+    <div class="container">
+        <div id="cpes" class="box jplist" style="margin: 0px 0 40px 0">
+            {% include 'iva/jplist_head.html' %}
+            <br><br><br>
+            <table class="list box text-shadow">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Vendor</th>
+                    <th>Version</th>
+                    <th>CPE</th>
+                    <th colspan="3">Options</th>
+                </tr>
+                </thead>
+                {% load custom_filters %}
+                {% for software in inventory %}
+                    <tr class="list-item box">
+                        <td> {{ software.product }} </td>
+                        <td> {{ software.vendor }} </td>
+                        <td> {{ software.version }} </td>
+                        <td> {{ software.cpe.uri_binding | decode_uri_binding }} </td>
+                        <td> <a title="show CPE" href="cpe_wfn.html?uri_binding={{software.cpe.uri_binding}}" target="popup" onclick="open_popup()">
+                            <img  src="{%  static 'iva/img/see.png' %}"></a>
+                        </td>
+                        <td>
+                            <a title="edit CPE" href="modify_cpe.html?uri_binding={{software.cpe.uri_binding}}&software_id={{ software.id }}" target="_self">
+                                <img  src="{%  static 'iva/img/edit.png' %}">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="search_cves.html?uri_binding={{software.cpe.uri_binding}}&software_id={{ software.id }}&option=search_cves" title="search CVEs" >
+                                <img src="{%  static 'iva/img/search.png' %}">
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% include 'iva/jplist_foot.html' %}
+        </div>
+    </div>
+    {% if updated %}
+        <div class="ok-msg">{{ updated | decode_uri_binding}} assigned to software</div>
+    {% endif %}
+{% endblock %}

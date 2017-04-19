@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modify User</title>
+    <script type="text/javascript" src="{% static 'iva/js/jquery-3.1.0.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'iva/js/utils.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'iva/js/modify_user.js' %}" ></script>
+    <link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="container-title">Modify User</div>
+<div class="container">
+    <form name="modify_user" action="modify_user.html" method="post">{% csrf_token %}
+        <div id="form_element">
+            <div id="form_label">Name</div>
+            <input  name="name" id="name" value="{{ name }}">
+        </div>
+        <div id="form_element">
+            <div id="form_label">Surname</div>
+            <input name="surname" id="surname" value="{{ surname }}">
+        </div>
+        <div id="form_element">
+            <div id="form_label">Username</div>
+            <input name="username" id="username" onfocus="check_new_username()" onchange="check_new_username()" value="{{ old_username }}">
+            <div id="empty_username" style="visibility: hidden; color: red; float: right" >username cannot be an empty string</div>
+            <div id="user_exists" style="visibility: hidden; color: red; float: right">user already exists</div>
+        </div>
+        <div id="form_element">
+            <button style="visibility: hidden" type="submit" id="modify_user" name="modify_user" disabled>Change</button>
+        </div>
+        <input style="visibility: hidden" name="old_username" id="old_username" value="{{ old_username }}">
+    </form>
+</div>
+</body>
+</html>

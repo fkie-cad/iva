@@ -1,0 +1,15 @@
+{% load custom_tags %}
+{% load static %}
+<div id="menu">
+    <div title="software without assigned CPE" class="menu_option"><a href="new_software">New Software</a></div>
+    <div title="software with assigned CPE" class="menu_option"><a href="sw_products_with_cpe">Software with CPE</a></div>
+    <div title="software with assigned CPE and matching CVE(s)" class="menu_option"><a href="cve_matches.html">CVE Matches</a></div>
+    <div title="alerts" class="menu_option"><a href="alerts">Alerts ({%  number_new_alerts %})</a></div>
+    <div class="menu_option_logout">{{ request.session.user }}
+        <a href="sign_in.html?sign_out=true">
+            <img  height="20px" width="20px" title="log out" src="{%  static 'iva/img/logout.png' %}">
+        </a>
+    </div>
+    <div title="Update CVE and CPE entries in DB" class="menu_option"><a href="local_repositories.html">Local Repositories </a></div>
+    <div title="Users" class="menu_option"><a href="users.html">Users</a></div>
+</div>

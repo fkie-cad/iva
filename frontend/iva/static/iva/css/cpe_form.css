@@ -1,0 +1,14 @@
+div#form_add_cpe {
+    width: 100%;
+    height: 245px;
+}
+
+div#form_container_right {
+    width: 50%;
+    float: left;
+}
+
+div#form_container_left {
+    width: 29%;
+    float: left;
+}

@@ -1,0 +1,21 @@
+{% load custom_filters %}
+{% load staticfiles %}
+<div id="{{ match.cve_id }}" style="visibility: hidden; width: 0px; height: 0px">
+    <table width="100%">
+        {% for match_uri_binding in match.cpe_entries %}
+                <tr>
+                    <td>{{ match_uri_binding | decode_uri_binding }}</td>
+                    <td>
+                        <a href="cpe_wfn.html?uri_binding={{ match_uri_binding }}" target="popup" onclick="open_popup()">
+                            <img title="see CPE" src="{%  static 'iva/img/see.png' %}">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="compare_cpe.html?uri_binding_a={{ uri_binging|urlencode }}&uri_binding_b={{ match_uri_binding|urlencode }}" target="popup" onclick="open_popup()">
+                            <img title="compare" src="{%  static 'iva/img/compare.png' %}" >
+                        </a>
+                    </td>
+                </tr>
+        {%  endfor %}
+    </table>
+</div>

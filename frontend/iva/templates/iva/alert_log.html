@@ -1,0 +1,10 @@
+{% load staticfiles %}
+
+<link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+
+<div class="container-title">Alert Log</div>
+<div class="container">
+{% for entry in log %}
+    <div>{{ entry }}</div>
+{% endfor %}
+</div>

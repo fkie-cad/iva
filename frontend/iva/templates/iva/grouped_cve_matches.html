@@ -1,0 +1,94 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% load custom_filters %}
+{% block js %}
+    {% include "iva/jplist_includes.html" %}
+    <script src="{%  static 'iva/js/cve_matches.js' %}"></script>
+{% endblock %}
+{% block navigation-bar %}
+    > <a href="cve_matches.html"> cve matches </a>
+    > grouped cve matches
+{% endblock %}
+{% block title %}Grouped CVE Matches{% endblock %}
+{% block content %}
+    {% csrf_token %}
+    {% include "iva/sw_product.html" %}
+    <div id="matches_container_title" class="container-title">Grouped CVE Matches</div>
+    <div id="matches_container" class="container">
+        <table id="comparison-table">
+            <thead>
+            <tr>
+                <th>CVE Matches ({{ cve_matches|length }})
+                    <div class="tooltip">
+                        <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}">
+                        <span class="tooltiptext">
+                            CVEs that have exactly the same CPE entries related to the software product.
+                        </span>
+                    </div>
+                </th>
+                <th>CPE Entries
+                    <div class="tooltip">
+                        <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}">
+                        <span class="tooltiptext">
+                            Common CPEs in the CVEs. Note that a CVE can have other CPEs. However, only those CPEs,
+                            which are relevant for the software product are, considered.
+                        </span>
+                    </div>
+                </th>
+                <th colspan="2">Options
+                    <div class="tooltip">
+                        <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}">
+                        <span class="tooltiptext">
+                            You can either discard or confirm all the CVEs for the software product.
+                        </span>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tr>
+                <td>
+                    {% for cve_match in cve_matches %}
+                        <a href="{{ cve_search_url }}{{ cve_match.cve_id }}" target="_blank">
+                            {{ cve_match.cve_id }}
+                        </a> ||
+                    {% endfor %}
+                </td>
+                <td>
+                    <table>
+                        {% for cpe_entry in cve_matches.0.cpe_entries %}
+
+                            <tr>
+                                <td>{{ cpe_entry }}</td>
+                                <td>
+                                    <a href="cpe_wfn.html?uri_binding={{ cpe_entry }}" target="popup" onclick="open_popup()">
+                                        <img align="right" title="show CPE well-formed name" src="{%  static 'iva/img/see.png' %}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="compare_cpe.html?uri_binding_a={{  software.cpe.uri_binding|urlencode }}&uri_binding_b={{ cpe_entry|urlencode }}" target="popup" onclick="open_popup()">
+                                        <img title="compare" src="{%  static 'iva/img/compare.png' %}" >
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+                <td>
+                    {% if cve_matches.0.positive == 0 and cve_matches.0.removed == 0 %}
+                        <img title="confirm group as match" src="{%  static 'iva/img/match.png' %}" onclick="modify_cve_matches_group('{{ cve_matches.0.cve_id }}', '{{ software.id }}', 'set_group_as_positive')">
+                    {% elif cve_matches.0.positive == 1 and cve_matches.0.removed == 0 %}
+                        <img title="set group as not match" src="{%  static 'iva/img/not_match.png' %}" onclick="modify_cve_matches_group('{{ cve_matches.0.cve_id }}', '{{ software.id }}', 'set_group_as_negative')">
+                    {% endif %}
+                </td>
+                <td>
+                    {% if cve_matches.0.removed == 0 and cve_matches.0.positive == 0 %}
+                        <img  title="remove group" src="{%  static 'iva/img/delete.png' %}" onclick="modify_cve_matches_group('{{ cve_matches.0.cve_id }}', '{{ software.id }}', 'set_group_as_removed')">
+                    {% elif cve_matches.0.removed == 1 and cve_matches.0.positive == 0 %}
+                        <img  title="restore group {{ match.cve_id }}" src="{%  static 'iva/img/undo.png' %}" onclick="modify_cve_matches_group('{{ cve_matches.0.cve_id }}', '{{ software.id }}', 'restore_group')">
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="loading"></div>
+{% endblock %}

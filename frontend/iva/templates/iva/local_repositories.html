@@ -1,0 +1,102 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% block title %} Local Repositories {% endblock %}
+{% block js %} <script src="{%  static 'iva/js/daily_db_update.js' %}"></script> {% endblock %}
+{% block navigation-bar %} > update database {% endblock %}
+{% block content %}
+    {% csrf_token %}
+    <div class="container-title">
+        DB Status
+        <div class="tooltip"  style="border-bottom: 1px dotted white;">
+            <img style="width: 15px; height: 15px" src="{%  static 'iva/img/help_white.png' %}">
+            <span class="tooltiptext">
+
+            </span>
+        </div>
+    </div>
+    <div class="container">
+        <fieldset>
+            <legend>cve-search DB</legend>
+            <div id="form_element">
+                <div id="form_label"> CPE Entries </div>
+                <div class="form_element_text">{{ cve_search_cpe_entries }}</div>
+            </div>
+            <div id="form_element">
+                <div id="form_label"> CVE Entries </div>
+                <div class="form_element_text">{{ cve_search_cve_entries }}</div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>IVA DB</legend>
+            <div id="form_element">
+                <div id="form_label"> CPE Entries </div>
+                <div class="form_element_text">{{ iva_cpe_entries }}</div>
+            </div>
+            <div id="form_element">
+                <div id="form_label"> CVE Entries </div>
+                <div class="form_element_text">{{ iva_cve_entries }}</div>
+            </div>
+        </fieldset>
+        <br>
+        <div id="form_element">
+            {% if not db_populated and not is_repopulation_running %}
+                {% if is_population_running %}
+                    <div class="warning-msg">
+                        Database is being populated.
+                    </div>
+                {% else %}
+                    <button type="button" onclick="populate_db()" id="populate">Populate DB</button>
+                {% endif %}
+            {% else %}
+                {% if is_repopulation_running %}
+                    <div class="warning-msg">
+                        Database is being repopulated.
+                    </div>
+                {% else %}
+                    <button type="button" onclick="repopulate_db()" id="repopulate">Repopulate DB</button>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="container-title">
+        Daily DB Update
+        <div class="tooltip"  style="border-bottom: 1px dotted white;">
+            <img style="width: 15px; height: 15px" src="{%  static 'iva/img/help_white.png' %}">
+            <span class="tooltiptext">
+                Here you can schedule the time (hour and minute) when the CPE and CVE entries will be updated in the database.
+                Moreover, after the update, CVEs matches for each software product (with assigned CPE) are searched automatically.
+                This ensures that the user always sees the most current CVE matches for all products, without manually searching
+                for new CVEs. The daily update can be activated/deactivated.
+            </span>
+        </div>
+    </div>
+    <div class="container">
+        <div id="form_element">
+            <div id="form_label">Last Update </div>
+            <div class="form_element_text">{{ task.last_execution }}</div>
+        </div>
+        <div id="form_element">
+            <div id="form_label">Next Update </div>
+            <div class="form_element_text">{{ task.next_execution }}
+                <a title="change daily update time" href="change_daily_db_update_time.html?&name={{ task.name }}&hour={{ task.execution_hour }}&minute={{ task.execution_minute }}" target="popup" onclick="open_popup()">
+                    <img style="vertical-align: middle" src="{%  static 'iva/img/change_time.png' %}">
+                </a>
+            </div>
+        </div>
+        <div id="form_element">
+            <div id="form_label">Scheduled </div>
+            <div class="form_element_text">{{ task.is_scheduled }}</div>
+        </div>
+        <div id="form_element">
+            <div id="form_label">Running </div>
+            <div class="form_element_text">{{ task.is_running }}</div>
+        </div>
+        <div id="form_element">
+            {% if task.status == 'active' %}
+                <button type="button" onclick="update_task_status('{{ task.name }}', 'deactivate')" title="deactivate daily DB update">Deactivate DB Update</button>
+            {% else %}
+                <button type="button" onclick="update_task_status('{{ task.name }}', 'activate')" title="activate daily DB update">Activate DB Update</button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

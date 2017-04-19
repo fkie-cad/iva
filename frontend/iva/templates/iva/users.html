@@ -1,0 +1,46 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% block title %} Users {% endblock %}
+{% block css %}{% endblock %}
+{% block js %}
+    <script src="{%  static 'iva/js/users.js' %}"></script>
+    {% include "iva/jplist_includes.html" %}
+{% endblock %}
+{% block navigation-bar %} > Users {% endblock %}
+{% block content %}
+    <div class="container-title">
+        Users
+        <a title="add user" href="add_user.html">
+            <img align="right" style="width: 20px; height: 23px;  padding-right: 10px; padding-bottom: 2px" src="{%  static 'iva/img/add_user.png' %}">
+        </a>
+    </div>
+    <div class="container">
+        {% csrf_token %}
+        <table>
+            <thead>
+            <tr><th>Name</th><th>Surname</th><th>Username</th><th colspan="3">Options</th></tr>
+            </thead>
+            {% for user in users %}
+                <tr>
+                    <td>{{user.name}}</td><td>{{user.surname}}</td><td>{{user.username}}</td>
+                    <td align="right">
+                        <a title="modify user" href="modify_user.html?username={{user.username}}&name={{user.name}}&surname={{user.surname}}" target="popup" onclick="open_popup()">
+                            <img  src="{%  static 'iva/img/edit.png' %}">
+                        </a>
+                    </td>
+                    <td align="right">
+                        <a title="change password" href="change_user_pwd.html?username={{user.username}}" target="popup" onclick="open_popup()">
+                            <img  src="{%  static 'iva/img/change_pwd.png' %}">
+                        </a>
+                    </td>
+                    <td align="right">
+                        <img  title="delete user" src="{%  static 'iva/img/delete.png' %}" onclick="delete_user('{{user.username}}')">
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% if pwd_changed %}
+                <div class="ok-msg">Password of user {{ username }} was updated successfully</div>
+        {% endif %}
+    </div>
+{% endblock %}

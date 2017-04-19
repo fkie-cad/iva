@@ -1,0 +1,63 @@
+{% load staticfiles %}
+
+<link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+
+<div class="container-title">CPE Well-Formed Name</div>
+
+<div class="container">
+    <div id="form_element">
+        <div id="form_label">URI binding </div>
+        <div class="form_element_text">{{uri_binging}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Type </div>
+        {% if wfn.part == 'a' %}
+            <div class="form_element_text">Software</div>
+        {% elif wfn.part == 'o' %}
+            <div class="form_element_text">Operating System</div>
+        {% elif wfn.part == 'h' %}
+            <div class="form_element_text">Hardware Device</div>
+        {% endif %}
+    </div>
+    <div id="form_element">
+        <div id="form_label">Vendor </div>
+        <div class="form_element_text">{{wfn.vendor}}</div>
+    </div>
+    {% load custom_filters %}
+    <div id="form_element">
+        <div id="form_label">Product </div>
+        <div class="form_element_text">{{wfn.product}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Version </div>
+        <div class="form_element_text">{{wfn.version}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Update </div>
+        <div class="form_element_text">{{wfn.update}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Edition </div>
+        <div class="form_element_text">{{wfn.edition}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Software Edition </div>
+        <div class="form_element_text">{{wfn.sw_edition}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Target Software </div>
+        <div class="form_element_text">{{wfn.target_sw}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Target Hardware </div>
+        <div class="form_element_text">{{wfn.target_hw}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Language </div>
+        <div class="form_element_text">{{wfn.language}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Other </div>
+        <div class="form_element_text">{{wfn.other}}</div>
+    </div>
+</div>

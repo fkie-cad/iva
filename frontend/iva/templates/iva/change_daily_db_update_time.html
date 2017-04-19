@@ -1,0 +1,39 @@
+{% load staticfiles %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change Daily DB Update Time</title>
+    <script type="text/javascript" src="{% static 'iva/js/jquery-3.1.0.min.js' %}" ></script>
+    <link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="container-title">Change Daily DB Update Time</div>
+<div class="container">
+    <form name="update_execution" action="change_daily_db_update_time.html" method="post">{% csrf_token %}
+        <div id="form_element">
+            <div id="form_label">Hour </div>
+            <select name="execution_time_hour">
+                <option value={{ current_hour }}>{{ current_hour }}</option>
+                {% for h in range_hour %}
+                    <option value={{ h | get_two_digits_number}}>{{ h | get_two_digits_number }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="form_element">
+            <div id="form_label">Minute </div>
+            <select name="execution_time_minute" id="execution_time_minute">
+                <option value={{ current_minute }}>{{ current_minute }}</option>
+                {% for m in range_minute %}
+                    <option value={{ m | get_two_digits_number}}>{{ m | get_two_digits_number}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="form_element">
+            <button type= "submit" id="update_execution_time">Change</button>
+        </div>
+        <input type="hidden" name="task_name" value="{{ task_name }}">
+    </form>
+</div>
+</body>
+</html>

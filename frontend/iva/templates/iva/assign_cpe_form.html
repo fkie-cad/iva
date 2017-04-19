@@ -1,0 +1,21 @@
+{% load static %}
+<div class="container-title">
+    CPE
+    <div class="tooltip"  style="border-bottom: 1px dotted white;">
+        <img style="width: 15px; height: 15px" src="{%  static 'iva/img/help_white.png' %}">
+        <span class="tooltiptext">
+            <b>Common Platform Enumeration (CPE)</b> <hr>
+            CPE is a method to identify classes of installed IT products (applications, operating systems, and hardware devices)
+            inside an organization. CPE is compatible with the CVE standard, and therefore, it allows to automatically
+            search for vulnerabilities on IT assets.<br><br>
+            <b>Well-Formed CPE Name Model</b> <hr>
+            The logical structure for a CPE identifier, which is assigned to a software product, is defined by a set
+            of attributes (e.g. vendor, product, version, edition, etc.) and their values. The form below must be
+            filled with values that better match the information provided by the inventory database for that software product.
+        </span>
+    </div>
+</div>
+<div class="container">
+    {% include 'iva/cpe_form.html' with form_action='assign_cpe.html' form_name='assign_cpe' button='<button type="submit" id="assign_cpe">Assign CPE</button>'%}
+    <div id="check"></div>
+</div>

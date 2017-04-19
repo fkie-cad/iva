@@ -1,0 +1,14 @@
+#comparison-table {
+    font-family: Verdana, serif;
+    font-size: 12px;
+}
+
+#comparison-table td {
+    background-color: white;
+    padding: 5px;
+}
+
+.attribute-label {
+    color: #2e6da4;
+    font-weight: bold;
+}

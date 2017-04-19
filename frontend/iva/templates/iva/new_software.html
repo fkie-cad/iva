@@ -1,0 +1,56 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% block title %}New Software{% endblock %}
+{% load custom_filters %}
+{% block js %}
+    {% include "iva/jplist_includes.html" %}
+    <script src="{%  static 'iva/js/inventory.js' %}"></script>
+{% endblock %}
+{% block navigation-bar %} > new software{% endblock %}
+{% block content %}
+    <div class="container-title">New Software</div>
+    <div class="container">
+        {% if read_inventory_error %}
+            <div class="error-msg">unable to read inventory from GLPI DB</div>
+        {% endif %}
+        <fieldset>
+            <legend style="padding-bottom: 10px; padding-top: 5px; color: #5e5e5e;" >read new software from inventory database</legend>
+            <a href="new_software.html?option=read_inventory">
+                <img style="height: 30px; width: 55px; border-radius: 5px"  title="read inventory from GLPI database" src="{%  static 'iva/img/glpi.jpg' %}">
+            </a>
+        </fieldset>
+        <form name=search_new_software action=new_software.html method="post">{% csrf_token %}
+            <fieldset>
+                <legend style="padding-bottom: 10px; padding-top: 5px; color: #5e5e5e;" >search product(s)</legend>
+                <div style="float: left; padding-top: 4px; padding-right: 3px" >
+                    <input name="product_to_search" size="40" >
+                </div>
+                <div id="form_element">
+                    <button type= "submit" id="login">search</button>
+                </div>
+            </fieldset>
+        </form>
+        <div id="inventory_items" class="box jplist" style="margin: 0px 0 40px 0">
+            {% include 'iva/jplist_head.html' %}
+            <br><br><br>
+            <table class="list box text-shadow">
+                <thead>
+                <tr><th>Product</th><th>Vendor</th><th>Version</th><th>Options</th></tr>
+                </thead>
+                {% for item in items %}
+                    <tr class="list-item box">
+                        <td>{{  item.product }}</td>
+                        <td>{{  item.vendor }}</td>
+                        <td>{{  item.version }}</td>
+                        <td align="center">
+                            <a class="software" href="assign_cpe.html?id={{ item.id }}" >
+                                <img title="search CPE for new software" src="{%  static 'iva/img/search.png' %}">
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% include 'iva/jplist_foot.html' %}
+        </div>
+    </div>
+{% endblock %}

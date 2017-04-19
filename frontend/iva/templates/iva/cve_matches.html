@@ -1,0 +1,140 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% load custom_filters %}
+{% block js %}
+    {% include "iva/jplist_includes.html" %}
+    <script src="{%  static 'iva/js/cve_matches.js' %}"></script>
+{% endblock %}
+{% block title %}CVE Matches{% endblock %}
+{% block navigation-bar %}> cve matches{% endblock %}
+{% block content %}
+    <div class="container-title">CVE Matches</div>
+    <div class="container">
+        <fieldset>
+            <legend style="padding-bottom: 10px; padding-top: 5px; color: #5e5e5e;">Filters</legend>
+            <div id="form_element">
+                <div id="form_label">Vendor</div>
+                <select id="vendor" name="vendor" onchange="show_vendor_cves()" style="height: 23px;">
+                    <option value={{ vendor }}>{{ vendor }}</option>
+                    {% for v in vendors %}
+                        {% if v != vendor %}
+                            <option value="{{ v }}">{{ v }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="form_element">
+                <div id="form_label">Product</div>
+                <select id="product" name="product" onchange="show_vendor_product_cves()" style="height: 23px;">
+                    <option value={{ product }}>{{ product }}</option>
+                    {% for p in products %}
+                        {% if p != product %}
+                            <option value="{{ p }}">{{ p }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="form_element">
+                <div id="form_label">Show removed</div>
+                <input type="checkbox" id="show_removed" onchange="show_removed()">
+            </div>
+        </fieldset>
+        <div id="cve_matches" class="box jplist" style="margin: 0px 0 40px 0">
+            {% include 'iva/jplist_head.html' %}
+            <br><br><br>
+            {% csrf_token %}
+            <table class="list box text-shadow">
+                <thead>
+                <tr>
+                    <th >
+                        CVE
+                        <a title="show CVEs by year in descending order" onclick="oder_by_year_desc()" style="vertical-align: middle; ">
+                            <img src="{%  static 'iva/img/down.png' %}">
+                        </a>
+                        <a title="show CVEs by year in ascending order" onclick="oder_by_year_asc()" style="vertical-align: middle; ">
+                            <img src="{%  static 'iva/img/up.png' %}">
+                        </a>
+                    </th>
+                    <th>Confirmed</th><th>Removed</th><th>Vendor</th><th>Product</th><th>Version</th><th>CPE</th></tr>
+                </thead>
+                {% for match in cve_matches %}
+                    <tr class="list-item box">
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><a href="{{ cve_search_url }}{{ match.cve_id }}" target="_blank">{{ match.cve_id }}</a></td>
+                                    <td>
+                                        <div class="show_cpes" id="show_{{ match.cve_id }}" value="{{ match.cve_id }}">
+                                            <img title="show CPEs" src="{%  static 'iva/img/see.png' %}">
+                                        </div>
+                                        <div class="hide_cpes" id="hide_{{ match.cve_id }}" value="{{ match.cve_id }}" style="visibility: hidden; width: 0px; height: 0px">
+                                            <img title="hide CPEs" src="{%  static 'iva/img/close_eye.png' %}">
+                                        </div>
+                                    </td>
+                                    {% if match.positive == 0 and match.removed == 0 %}
+                                        <td>
+                                            <img title="confirm match" src="{%  static 'iva/img/match.png' %}" onclick="modify_cve_match('{{ match.cve_id }}', '{{ match.software.id }}', 'set_cve_as_positive')">
+                                        </td>
+                                    {% endif %}
+                                    {% if match.positive == 1 and match.removed == 0 %}
+                                        <td>
+                                            <img title="set as not match" src="{%  static 'iva/img/not_match.png' %}" onclick="modify_cve_match('{{ match.cve_id }}', '{{ match.software.id }}', 'set_cve_as_negative')">
+                                        </td>
+                                    {% endif %}
+                                    {% if match.removed == 0 and match.positive == 0 %}
+                                        <td>
+                                            <img  title="remove match {{ match.cve_id }}" src="{%  static 'iva/img/delete.png' %}" onclick="modify_cve_match('{{ match.cve_id }}', '{{ match.software.id }}', 'remove_cve')">
+                                        </td>
+                                    {% endif %}
+                                    {% if match.removed == 1 and match.positive == 0 %}
+                                        <td>
+                                            <img  title="restore match {{ match.cve_id }}" src="{%  static 'iva/img/undo.png' %}" onclick="modify_cve_match('{{ match.cve_id }}', '{{ match.software.id }}', 'restore_cve')">
+                                        </td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="grouped_cve_matches.html?cve_id={{ match.cve_id }}&software_id={{ match.software.id }}" target="_blank">
+                                            <img  title="group with matches with same CPE entries" src="{%  static 'iva/img/group.png' %}">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="{{ match.cve_id }}" style="visibility: hidden; width: 0px; height: 0px">
+                                <table>
+                                    {% for match_uri_binding in match.cpe_entries %}
+                                        <div>
+                                            <tr style="background-color:transparent">
+                                                <td>{{ match_uri_binding | decode_uri_binding }}</td>
+                                                <td>
+                                                    <a href="cpe_wfn.html?uri_binding={{ match_uri_binding }}" target="popup" onclick="open_popup()">
+                                                        <img title="show CPE" src="{%  static 'iva/img/see.png' %}">
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="compare_cpe.html?uri_binding_a={{ match.software.cpe.uri_binding|urlencode }}&uri_binding_b={{ match_uri_binding|urlencode }}" target="popup" onclick="open_popup()">
+                                                        <img title="compare" src="{%  static 'iva/img/compare.png' %}" >
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                    {%  endfor %}
+                                </table>
+                            </div>
+                        </td>
+                        <td>{% if match.positive == 0 %}No{% else %}Yes{% endif %}</td>
+                        <td>{% if match.removed == 0 %}No{% else %}Yes{% endif %}</td>
+                        <td>{{ match.software.vendor }}</td>
+                        <td>{{ match.software.product }}</td>
+                        <td>{{ match.software.version }}</td>
+                        <td>
+                            {{ match.software.cpe.uri_binding | decode_uri_binding }}
+                            <a href="cpe_wfn.html?uri_binding={{ match.software.cpe.uri_binding }}" target="popup" onclick="open_popup()">
+                                <img style="padding-left: 5px;" align="right" title="show CPE" src="{%  static 'iva/img/see.png' %}">
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% include 'iva/jplist_foot.html' %}
+        </div>
+    </div>
+{% endblock %}

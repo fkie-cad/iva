@@ -1,0 +1,44 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% block title %}Add User{% endblock %}
+{% block js %}
+    <script src="{%  static 'iva/js/users.js' %}"></script>
+{% endblock %}
+{% block navigation-bar %}
+    > <a href="users.html"> users </a>
+    > add user
+{% endblock %}
+{% block content %}
+    <div class="container-title">Add User</div>
+    <div class="container">
+        <form name="add_user" action="add_user.html" method="post">{% csrf_token %}
+                    <div id="form_element">
+                        <div id="form_label">Name</div>
+                        <input  name="name">
+                    </div>
+                    <div id="form_element">
+                        <div id="form_label">Surname</div>
+                        <input name="surname">
+                    </div>
+                    <div id="form_element">
+                        <div id="form_label">Username</div>
+                        <input name="username" id="username" onfocus="check_username()" onchange="check_username()" >
+                        <div id="empty_username" style="visibility: hidden; color: red; float: right" >username cannot be an empty string</div>
+                        <div id="user_exists" style="visibility: hidden; color: red; float: right">user already exists</div>
+                    </div>
+                    <div id="form_element">
+                        <div id="form_label">Password</div>
+                        <input name="password" type="password" id="password" onfocus="check_password()" onchange="check_password()" >
+                        <div id="empty_password" style="visibility: hidden; color: red; float: right" >password cannot be an empty string</div>
+                    </div>
+                    <div id="form_element">
+                        <div id="form_label">Repeat</div>
+                        <input  name="repeat" type="password" id="repeat" onfocus="check_repeat()" onchange="check_repeat()" >
+                        <div id="repeat_not_equal" style="visibility: hidden; color: red; float: right" >repeat is not equal to password</div>
+                    </div>
+                    <div id="form_element">
+                        <button style="visibility: hidden" type="submit" id="add_user" disabled>Add User</button>
+                    </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% load staticfiles %}
+
+<link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+
+<div class="container-title">Change Alert Status</div>
+
+<div class="container">
+<form name="change_alert_status" action="alert_status.html" method="post">{% csrf_token %}
+    <div id="form_element">
+        <div id="form_label">Current Status</div>
+        <div class="form_element_text">{{ current_status }}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">New Status</div>
+        <select id="form_select" name="new_status">
+            {% for status in status_list %}
+                {% if status != 'sent' %}
+                    <option value="{{ status }}">{{ status }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div id="form_element">
+        <button type= "submit" id="update_alert_status">Update</button>
+    </div>
+    <input type="hidden" name="software_id" value="{{ software_id }}">
+</form>
+</div>
+

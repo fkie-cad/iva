@@ -1,0 +1,14 @@
+{% load staticfiles %}
+
+<link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+
+<div class="container-title">Alert Notes</div>
+<div class="container">
+    <form name="update_alert_notes" action="alert_notes.html" method="post">{% csrf_token %}
+        <textarea rows="10" cols="60" name="notes">{{ notes }}</textarea>
+        <div id="form_element">
+            <button type= "submit" id="update_alert_notes">Update</button>
+        </div>
+        <input type="hidden" name="software_id" value="{{ software_id }}">
+    </form>
+</div>

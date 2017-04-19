@@ -1,0 +1,17 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% block navigation-bar %}
+    > <a href="new_software.html"> new software </a>
+    > assign CPE
+{% endblock %}
+{% block title %}Assign CPE{% endblock %}
+{% block js %}
+    {% include "iva/jplist_includes.html" %}
+    <script src="{%  static 'iva/js/cpe_form.js' %}"></script>
+    <link href="{%  static 'iva/css/cpe_form.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block content %}
+    {% include "iva/sw_product.html" %}
+    {% include "iva/assign_cpe_form.html" %}
+    {% include "iva/cpe_matches.html" %}
+{% endblock %}

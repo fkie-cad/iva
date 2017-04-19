@@ -1,0 +1,205 @@
+{% load staticfiles %}
+{% load custom_tags %}
+<form name={{ form_name }} action={{ form_action }} method="post">{% csrf_token %}
+    <div id="form_element">
+        <div class="tooltip">
+            Logical Values ?
+            <span class="tooltiptext">
+                <b>Logical Values</b> <hr>
+                <b>'ANY', '*', or 'empty'</b><br>
+                These values are assigned when there are NO restrictions on acceptable values for an attribute (e.g. Update).
+                <br> The logical value <b>'*'</b> can be used in the version attribute to indicate that the
+                version is equal to its subsets. For example, the version 1.2.* is equal to 1.2.67 or 1.2.3.89.
+                <br><br>
+                <b>'NA' or '-'</b> <br>
+                These logical values are assigned when there is NO meaningful value for an attribute, or when
+                this attribute is not part of the products's description (Not Applicable).
+            </span>
+        </div>
+    </div>
+
+    <div id="form_add_cpe">
+        <div id="form_container_left">
+            <div id="form_element">
+                <div id="form_label">Type</div>
+                <select id="form_select" name="part">
+                    {% if wfn.part == 'a' %}
+                        <option value="a">Software</option>
+                        <option value="o">Operating System</option>
+                        <option value="h">Hardware</option>
+                    {% elif wfn.part == 'o' %}
+                        <option value="o">Operating System</option>
+                        <option value="h">Hardware</option>
+                        <option value="a">Software</option>
+                    {% elif wfn.part == 'h' %}
+                        <option value="h">Hardware</option>
+                        <option value="a">Software</option>
+                        <option value="o">Operating System</option>
+                    {% endif %}
+                </select>
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        The attribute "Type" specifies the type of IT asset: software (a),
+                        operating system (o), or hardware device (h).
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Vendor</div>
+                <input size="35" value={{ wfn.vendor }} name="vendor" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute describe or identify the person or organization that manufactured or created the product.
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Product</div>
+                <input size="35" value={{ wfn.product }} name="product" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute describe or identify the most common and recognizable title or name of the product.
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Version</div>
+                <input value={{ wfn.version }} name="version" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute are vendor-specific alphanumeric strings characterizing the particular release version of the product.
+                        <br> The logical value <b>'*'</b> can be used for this attribute to indicate that the
+                        version is equal to its subsets. For example, the version 1.2.* is equal to 1.2.67 or 1.2.3.89.
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Update</div>
+                <input value={{ wfn.update }} name="update" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                        <span class="tooltiptext">
+                            Values for this attribute are vendor-specific alphanumeric strings characterizing the
+                            particular update, service pack, or point release of the product.
+                        </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Edition</div>
+                <input value={{ wfn.edition }} name="edition" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute should capture edition-related terms applied by the vendor to the product.
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                {{ button }}
+            </div>
+
+        </div>
+
+        <div id="form_container_right">
+            <div id="form_element">
+                <div id="form_label">Language</div>
+                <select id="form_select" name="language" onchange="verify_if_cpe_assigned_already()">
+                    <option value={{ wfn.language }}>{%  get_country_name  wfn.language %}</option>
+                    {% if wfn.language != 'ANY'  %}
+                        <option value="ANY">ANY</option>
+                    {% endif %}
+                    {% if wfn.language != 'NA' %}
+                        <option value="NA">NA</option>
+                    {% endif %}
+                    {% for code in lang_codes %}
+                        {% if code.iso639_1_code %}
+                            <option value={{ code.iso639_1_code }}>{{ code.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute are valid language tags as defined by [RFC5646], and are used
+                        to define the language supported in the user interface of the product being described.
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Software Edition</div>
+                <input value={{ wfn.sw_edition }} name="sw_edition" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute characterize how the product is tailored to a particular market or
+                        class of end users (e.g. student or professional edition).
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Target Software</div>
+                <input value={{ wfn.target_sw }} name="target_sw" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute characterize the software computing environment within
+                        which the product operates (e.g. Windows or Linux).
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Target Hardware</div>
+                <input value={{ wfn.target_hw }} name="target_hw" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute characterize the instruction set architecture (e.g., x86)
+                        on which the product operates. Bytecode-intermediate languages, such as Java bytecode for
+                        the Java Virtual Machine or Microsoft Common Intermediate Language for the Common Language
+                        Runtime virtual machine, shall be considered instruction set architectures.
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">Other</div>
+                <input value={{ wfn.other }} name="other" onchange="verify_if_cpe_assigned_already()">
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        Values for this attribute capture any other general descriptive or identifying information
+                        which is vendor- or product-specific and which does not logically fit in any other attribute value.
+                    </span>
+                </div>
+            </div>
+
+            <div id="form_element">
+                <div id="form_label">URI</div>
+                <div id="uri_binding" class="form_element_text">{{ uri_binging }}</div>
+                <div class="tooltip">
+                    <img style="width: 14px; height: 14px" src="{%  static 'iva/img/help.png' %}"></a>
+                    <span class="tooltiptext">
+                        The URI is formed using the values of the attributes defined is this form following the
+                        specifications described in the Common Platform Enumeration Naming Specification (Version 2.3).
+                        The URI represents an identifier for an IT asset(s).
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="uri_binding" value="{{ uri_binding }}">
+    <input type="hidden" name="software_id" value="{{ software_id }}">
+</form>

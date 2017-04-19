@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<br>
+<div class="container-title">
+    CPE Candidates
+    <div class="tooltip"  style="border-bottom: 1px dotted white;">
+        <img style="width: 15px; height: 15px" src="{%  static 'iva/img/help_white.png' %}">
+        <span class="tooltiptext">
+            This box shows a list of CPE candidates for that software product. To see
+            all the values (e.g. target hardware) of a CPE, click on the eye icon.
+            <b>To select a CPE</b>, click on the URI string.
+        </span>
+     </div>
+</div>
+<div class="container">
+    <div id="cpe_matches" class="box jplist" style="margin: 0px 0 40px 0">
+        {% include 'iva/jplist_head.html' %}
+        <br><br><br>
+        <table class="list box text-shadow">
+            <thead>
+                <tr><th>CPE URI</th><th>Options</th></tr>
+            </thead>
+            {% load custom_filters %}
+            {% for cpe in cpe_matches %}
+                <tr class="list-item box">
+                    <td class="cpe" value="{{ cpe.wfn }}">{{cpe.uri_binding | decode_uri_binding}}</td>
+                    <td align="center">
+                        <a href="cpe_wfn.html?uri_binding={{cpe.uri_binding}}" target="popup" onclick="open_popup()">
+                            <img  src="{%  static 'iva/img/see.png' %}">
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% include 'iva/jplist_foot.html' %}
+    </div>
+</div>

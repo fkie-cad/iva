@@ -1,0 +1,103 @@
+{% load staticfiles %}
+
+<link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+<link href="{%  static 'iva/css/compare_cpe.css' %}" rel="stylesheet" type="text/css" />
+
+
+<div class="container-title">{{coincidence}} % of coincidence</div>
+
+<div class="container">
+    <table id="comparison-table">
+        <tr><th>Attribute</th><th>Software CPE</th><th>CVE match CPE</th></tr>
+        <tr>
+            <td class="attribute-label">Vendor</td>
+            <td>{{wfn_a.vendor}}</td>
+            {% if 'vendor' in not_matches %}
+                <td style="color: red">{{wfn_b.vendor}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.vendor}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Product</td>
+            <td>{{wfn_a.product}}</td>
+            {% if 'product' in not_matches %}
+                <td style="color: red">{{wfn_b.product}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.product}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Version</td>
+            <td>{{wfn_a.version}}</td>
+            {% if 'version' in not_matches %}
+                <td style="color: red">{{wfn_b.version}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.version}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Update</td>
+            <td>{{wfn_a.update}}</td>
+            {% if 'update' in not_matches %}
+                <td style="color: red">{{wfn_b.update}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.update}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Edition</td>
+            <td>{{wfn_a.edition}}</td>
+            {% if 'edition' in not_matches %}
+                <td style="color: red">{{wfn_b.edition}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.edition}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Language</td>
+            <td>{{wfn_a.language}}</td>
+            {% if 'language' in not_matches %}
+                <td style="color: red">{{wfn_b.language}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.language}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Software Edition</td>
+            <td>{{wfn_a.sw_edition}}</td>
+            {% if 'sw_edition' in not_matches %}
+                <td style="color: red">{{wfn_b.sw_edition}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.sw_edition}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Target Software</td>
+            <td>{{wfn_a.target_sw}}</td>
+            {% if 'target_sw' in not_matches %}
+                <td style="color: red">{{wfn_b.target_sw}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.target_sw}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Target Hardware</td>
+            <td>{{wfn_a.target_hw}}</td>
+            {% if 'target_hw' in not_matches %}
+                <td style="color: red">{{wfn_b.target_hw}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.target_hw}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="attribute-label">Other</td>
+            <td>{{wfn_a.other}}</td>
+            {% if 'other' in not_matches %}
+                <td style="color: red">{{wfn_b.other}}</td>
+            {% else %}
+                <td style="color: darkgreen">{{wfn_b.other}}</td>
+            {% endif %}
+        </tr>
+    </table>
+</div>

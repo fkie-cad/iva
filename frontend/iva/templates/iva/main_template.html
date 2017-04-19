@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Template{% endblock %}</title>
+        <script type="text/javascript" src="{% static 'iva/js/jquery-3.1.0.min.js' %}" ></script>
+        <script type="text/javascript" src="{% static 'iva/js/utils.js' %}" ></script>
+        {% block js %}{% endblock %}
+        {% block css %}{% endblock %}
+        <link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <div id="header">HEADER</div>
+        {% include "iva/menu.html" %}
+        <div id="content">
+            <div id="navigation-bar">
+                <a href="index.html">main</a>
+                {% block navigation-bar %}{% endblock %}
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+        <div id="footer">FOOTER</div>
+    </body>
+</html>

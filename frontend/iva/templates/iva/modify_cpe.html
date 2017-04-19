@@ -1,0 +1,19 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% load custom_filters %}
+{% load custom_tags %}
+{% block js %} <script src="{%  static 'iva/js/cpe_form.js' %}"></script> {% endblock %}
+{% block css %} <link href="{%  static 'iva/css/cpe_form.css' %}" rel="stylesheet" type="text/css" /> {% endblock %}
+{% block title %}Modify CPE{% endblock %}
+{% block navigation-bar %}
+    > <a href="sw_products_with_cpe.html"> software with CPE </a>
+    > modify CPE
+{% endblock %}
+{% block content %}
+    {% include "iva/sw_product.html" %}
+    <div class="container-title">CPE</div>
+    <div class="container">
+        {% include 'iva/cpe_form.html' with form_action='modify_cpe.html' form_name='modify_cpe' button='<button type="submit" id="edit_cpe">Modify</button>' %}
+        {% if updated %} <div class="ok-msg">successfully updated</div> {% endif %}
+    </div>
+{% endblock %}

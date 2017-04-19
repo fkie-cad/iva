@@ -1,0 +1,13 @@
+.alert_status {
+    border-radius: 3px;
+    padding: 3px;
+}
+
+.alert_status a {
+    text-decoration: none;
+    color: white;
+}
+
+.alert_status a:hover {
+    font-weight: bold;
+}

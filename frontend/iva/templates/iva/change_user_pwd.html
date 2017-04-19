@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change User Password</title>
+    <script type="text/javascript" src="{% static 'iva/js/jquery-3.1.0.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'iva/js/utils.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'iva/js/change_user_pwd.js' %}" ></script>
+    <link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="container-title">Change User Password</div>
+<div class="container">
+    <form name="change_user_pwd" action="change_user_pwd.html" method="post">{% csrf_token %}
+        <div id="form_element">
+            <div id="form_label">Old Password</div>
+            <input  name="old_pwd" id="old_pwd" onfocus="check_old_password()" onchange="check_old_password()" type="password">
+            <div id="wrong_pwd" style="visibility: hidden; color: red; float: right" >wrong password</div>
+        </div>
+        <div id="form_element">
+            <div id="form_label">New Password</div>
+            <input name="new_pwd" id="new_pwd" onfocus="check_new_password()" onchange="check_new_password()" type="password">
+            <div id="empty_pwd" style="visibility: hidden; color: red; float: right" >password cannot be an empty string</div>
+        </div>
+        <div id="form_element">
+            <div id="form_label">Repeat</div>
+            <input name="repeat" id="repeat" onfocus="check_repeat()" onchange="check_repeat()" type="password">
+            <div id="repeat_not_equal" style="visibility: hidden; color: red; float: right" >repeat is not equal to password</div>
+        </div>
+        <div id="form_element">
+            <button style="visibility: hidden" type="submit" id="change_pwd" name="change_pwd" disabled>Change</button>
+        </div>
+        <input style="visibility: hidden" name="username" id="username" value="{{ username }}">
+    </form>
+    {% if error %}
+        <div class="error-msg">An error occurred when updating the password of user {{ username }}</div>
+    {% endif %}
+</div>
+</body>
+</html>

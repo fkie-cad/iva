@@ -1,0 +1,116 @@
+{% extends "iva/main_template.html" %}
+{% load staticfiles %}
+{% load custom_filters %}
+{% block title %}Vulnerable Software{% endblock %}
+{% block css %}
+    <link href="{% static 'iva/css/alerts.css' %}" rel="stylesheet" type="text/css"
+          xmlns="http://www.w3.org/1999/html"/>
+{% endblock %}
+{% block js %}
+    {% include "iva/jplist_includes.html" %}
+    <script src="{%  static 'iva/js/alerts.js' %}"></script>
+{% endblock %}
+{% block navigation-bar %}
+    > Alerts
+{% endblock %}
+{% block content %}
+    <div class="container-title">Alerts</div>
+    <div class="container">
+    <div id="sending"></div>
+    <div id="sent_email_failed"></div>
+    <div id="sent_email_ok"></div>
+        <div id="alerts" class="box jplist" style="margin: 0px 0 40px 0">
+            {% include 'iva/jplist_head.html' %}
+            <br><br><br>
+            {% csrf_token %}
+            <table class="list box text-shadow">
+                <thead>
+                <tr><th>Generated on</th><th>Softwarse</th><th>CPE</th><th>CVEs</th><th colspan="3">Options</th><th>Status</th></tr>
+                </thead>
+                {% for alert in alerts %}
+                    <tr class="list-item box">
+                        <td>{{alert.generated_on}}</td>
+                        <td>
+                            <b>Vendor </b>{{alert.vendor}} <br>
+                            <b>Product </b>{{alert.product}} <br>
+                            <b>Version </b>{{alert.version}}
+                        </td>
+                        <td>
+                            <table width="100%">
+                                <tr>
+                                    <td>{{ alert.uri | decode_uri_binding }}</td>
+                                    <td align="right">
+                                        <a title="show CPE" href="cpe_wfn.html?uri_binding={{alert.uri}}" target="popup" onclick="open_popup()">
+                                            <img  src="{%  static 'iva/img/see.png' %}">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <div style="overflow-y: scroll; max-height:135px;">
+                                <table>
+                                    {% for cve_id in alert.cves %}
+                                        <tr style="background-color:transparent">
+                                            <td>
+                                                <a href="{{ cve_search_url }}{{ cve_id }}" target="_blank">{{ cve_id }}</a>
+                                            </td>
+                                            <td>
+                                                <img  src="{%  static 'iva/img/not_match.png' %}" style="cursor: pointer" title="{{ cve_id }} is not a match"
+                                                      onclick="set_cve_as_negative('{{ cve_id }}', '{{alert.software_id}}')">
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </td>
+                        <td align="center">
+                            {% if alert.status != 'removed' and alert.status != 'closed' %}
+                                <img style="cursor: pointer" src="{%  static 'iva/img/send_email.png' %}" title="send alert per email"
+                                     onclick='notify("{{ cve_id }}", "{{ alert.software_id }}" , "{{alert.product }} {{alert.version }}")'>
+                            {% endif %}
+                        </td>
+                        <td align="center">
+                            <a href="alert_notes.html?software_id={{alert.software_id}}&notes={{alert.notes}}" target="popup" onclick="open_popup()" title="show notes">
+                                <img  src="{%  static 'iva/img/notes.png' %}">
+                            </a>
+                        </td>
+                        <td align="center">
+                            <a href="alert_log.html?log={{alert.log}}" target="popup" onclick="open_popup()" title="show log">
+                                <img  src="{%  static 'iva/img/log.png' %}">
+                            </a>
+                        </td>
+                        <td align="center">
+                            {% if alert.status == 'new' %}
+                                <div class="alert_status" style="background-color: red; color: white;">
+                                    <a href="alert_status.html?software_id={{alert.software_id}}&current_status={{ alert.status }}" target="popup" onclick="open_popup()" title="change status">
+                                        New
+                                    </a>
+                                </div>
+                            {% elif alert.status == 'removed' %}
+                                <div class="alert_status" style="background-color: gray; color: white;">
+                                    <a href="alert_status.html?software_id={{alert.software_id}}&current_status={{ alert.status }}" target="popup" onclick="open_popup()" title="change status">
+                                        Removed
+                                    </a>
+                                </div>
+                            {% elif alert.status == 'closed' %}
+                                <div class="alert_status" style="background-color: darkgreen; color: white;">
+                                    <a href="alert_status.html?software_id={{alert.software_id}}&current_status={{ alert.status }}" target="popup" onclick="open_popup()" title="change status">
+                                        Closed
+                                    </a>
+                                </div>
+                            {% elif alert.status == 'sent' %}
+                                <div class="alert_status" style="background-color: darkblue;">
+                                    <a href="alert_status.html?software_id={{alert.software_id}}&current_status={{ alert.status }}" target="popup" onclick="open_popup()" title="change status">
+                                        Sent
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% include 'iva/jplist_foot.html' %}
+        </div>
+    </div>
+{% endblock %}

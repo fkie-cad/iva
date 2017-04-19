@@ -1,0 +1,36 @@
+{% load static %}
+{% load custom_filters %}
+<div class="container-title">
+    Software Product
+    <div class="tooltip"  style="border-bottom: 1px dotted white;">
+        <img style="width: 15px; height: 15px" src="{%  static 'iva/img/help_white.png' %}">
+        <span class="tooltiptext">
+            The information (vendor, product, and version) shown in this box was obtained from the inventory database (e.g. GLPI).
+        </span>
+    </div>
+</div>
+<div class="container">
+    <div id="form_element">
+        <div id="form_label">Vendor </div>
+        <div class="form_element_text">{{software.vendor}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Product </div>
+        <div class="form_element_text">{{software.product}}</div>
+    </div>
+    <div id="form_element">
+        <div id="form_label">Version </div>
+        <div class="form_element_text">{{software.version}}</div>
+    </div>
+    {% if software.cpe != None %}
+        <div id="form_element">
+            <div id="form_label">CPE </div>
+            <div class="form_element_text">{{software.cpe.uri_binding | decode_uri_binding}}</div>
+            <div style="float: left">
+                <a href="cpe_wfn.html?uri_binding={{ software.cpe.uri_binding }}" target="popup" onclick="open_popup()">
+                    <img align="right" title="show CPE well-formed name" src="{%  static 'iva/img/see.png' %}">
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>

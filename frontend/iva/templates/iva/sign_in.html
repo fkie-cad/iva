@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="{%  static 'iva/css/main_template.css' %}" rel="stylesheet" type="text/css" />
+        <title>Sign in</title>
+    </head>
+    <body>
+        <div align="center">
+            <div class="container-title" style="width: 336px">Sign in</div>
+            <div class="container" style="width: 315px">
+                <form name="login" action="sign_in.html" method="post">{% csrf_token %}
+                    <div id="form_element">
+                        <div id="form_label">Username</div>
+                        <input name="username">
+                    </div>
+                    <div id="form_element">
+                        <div id="form_label">Password</div>
+                        <input type="password" name="password">
+                    </div>
+                    <div id="form_element">
+                        <button type= "submit" id="login">sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% if not is_valid_user %}
+            <div class="error-msg">invalid user</div>
+        {% endif %}
+    </body>
+</html>

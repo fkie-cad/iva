@@ -1,0 +1,313 @@
+body {
+    font-family: Verdana, serif;
+    font-size: 12px;
+    margin: 20px;
+
+}
+
+div#navigation-bar {
+    font-size: 14px;
+    padding-bottom: 8px;
+    color: #9d9d9d;
+    margin-left: 10px;
+}
+
+div#navigation-bar a {
+    text-decoration: none;
+    color: #2e6da4;
+}
+
+div#navigation-bar a:hover {
+    font-weight: bold;
+}
+
+div#header {
+    height: 80px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-bottom: 0;
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px;
+}
+
+div#footer {
+    height: 30px;
+    background-color: #f1f1f1;
+    border:1px solid #ccc;
+    border-radius: 0px 0px 10px 10px;
+    padding: 20px;
+}
+
+div#menu {
+    background-color:#5e5e5e;
+    height: 28px;
+    padding: 2.3px 5px 5px;
+}
+
+.menu_option {
+    font-size: 16px;
+    float: left;
+    padding: 5px;
+}
+
+.menu_option a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 5px;
+}
+
+.menu_option a:hover {
+    background-color: #f1f1f1;
+    color: #5e5e5e;
+    border-radius: 4px 4px 4px 4px;
+    border: 1px solid #5e5e5e;
+}
+
+.menu_option_logout {
+    font-size: 14px;
+    float: right;
+    color: #ffffff;
+    padding-top: 2px;
+}
+
+div#content {
+    padding: 20px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.container-title {
+    height: 25px;
+    border-radius: 7px 7px 0px 0px;
+    background-color: #2e6da4;
+    padding-top: 5px;
+    padding-left: 5px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.container {
+    border-radius: 0px 0px 7px 7px;
+    border: 1px solid #ccc;
+    border-top: 0px;
+    padding: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.container button {
+	border:1px solid #2e6da4;
+	background:none;
+	outline:none;
+	padding:5px;
+    border-radius: 4px 4px 4px 4px;
+    color: #2e6da4;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.container button:hover {
+    border:0;
+    color: #ffffff;
+    background: #2e6da4 none;
+    text-shadow: none;
+}
+
+div#form_element {
+	text-align: left;
+	height: 35px;
+}
+
+div#form_label {
+	width: 120px;
+	float: left;
+	padding-top: 2.2px;
+    padding-bottom: 2.3px;
+	padding-left: 5px;
+	background-color: #f1f1f1;
+    border-radius: 5px 0px 0px 5px;
+    border: 0.8px solid #204d74;
+    font-weight: normal;
+    color: #204d74;
+}
+
+select#form_select {
+    width: 143px;
+    height: 24px;
+    border: 0.8px solid #204d74;
+    border-left: 0;
+    padding: 0px 1px 1px 0px;
+}
+
+div#form_element input {
+    height: 15px;
+    border: 0.8px solid #204d74;
+    border-left: 0;
+    padding: 2px 2px 2px 3px;
+}
+
+@-moz-document url-prefix() {
+    div#form_element input {
+        padding: 3px 2px 3px 3px;
+    }
+    select#form_select {
+        height: 23px;
+    }
+}
+
+div#form_element input:focus {
+    height: 18px;
+    background-color: #f1f1f1;
+    border: 0;
+}
+
+.form_element_text {
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-right: 5px;
+    float: left;
+    color: #5e5e5e;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+td {
+    padding: 1px 5px;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #5e5e5e;
+    border-radius: 5px 5px 5px 5px;
+    padding: 4px;
+}
+
+th a {
+    text-decoration: none;
+}
+
+th a:hover {
+    cursor: pointer;
+}
+
+img {
+    width: 20px;
+    height: 20px;
+}
+
+.test-panel {
+    background-color: #2b542c
+}
+
+.jplist-label {
+    border: 0.8px solid #204d74;
+    font-weight: normal;
+    color: #204d74;
+}
+
+.ok-msg {
+    background-color: green;
+    color: white;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.ok-msg {
+    background-color: green;
+    color: white;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.warning-msg {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.error-msg {
+    background-color: #d10000;
+    color: white;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.info-msg {
+    background-color: #f4f4f4;
+    border: 0.8px solid #204d74;
+    color: #666666;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+ /* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    font-weight: normal;
+    visibility: hidden;
+    width: 380px;
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    padding: 5px;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 140%;
+    left: 50%;
+    margin-left: -40px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 13%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

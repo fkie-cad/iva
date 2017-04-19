@@ -1,0 +1,8 @@
+django==1.9.7
+editdistance==0.3.1
+pycountry==1.20
+pymongo==3.2.2
+ldap3==2.1.1
+configparser==3.5.0
+pymysql==0.7.9
+gnupg==2.2.0
