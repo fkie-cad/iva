@@ -99,7 +99,7 @@ class Alerts:
         return self.send(sw_alert_email, software)
 
     def send(self, alert_mail, software):
-        sw_string = software.get('product') + ' ' + software.get('product') + ' ' + software.get('version')
+        sw_string = software.get('vendor') + ' ' + software.get('product') + ' ' + software.get('version')
         logger.info('ALERTS - sending notification for ' + sw_string)
         was_sent = EmailSender().send(alert_mail)
         if was_sent:
