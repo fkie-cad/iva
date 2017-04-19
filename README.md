@@ -399,6 +399,6 @@ IVA source code is shipped with a copy of the GNU Lesser General Public License 
 
 [1] [GLPI](http://glpi-project.org/spip.php?lang=en)
 
-<b>TODO</b>
+[2] [cve-search](https://github.com/cve-search/cve-search)
 
 [Index](#index)
