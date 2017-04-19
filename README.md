@@ -8,7 +8,7 @@
 - [Tests](#tests)
 - [Usage](#usage)
 - [Configuration](#configuration)
-- [Authors](#authors)
+- [Contact](#contact)
 - [License](#license)
 
 ## Summary <a name="summary"></a>
@@ -375,9 +375,11 @@ Before using IVA, the following options must be configured. The configuration fi
 
 [Index](#index)
 
-## Authors <a name="authors"></a>
+## Contact <a name="contact"></a>
 
-<b>TODO</b>
+Luis Alberto Benthin Sanguino
+
+lbenthins@gmail.com
 
 [Index](#index)
 
